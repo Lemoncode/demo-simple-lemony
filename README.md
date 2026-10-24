@@ -112,6 +112,18 @@ cp .env.example .env
 Variables: `MONGODB_URI`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET`
 y `S3_REGION`.
 
+### Imágenes de la Villa (`pnpm seed:images`)
+
+Con `pnpm infra:up` hecho, `pnpm seed:images` sube al bucket las 10 imágenes de la Villa
+(lee el `.env` de la raíz si existe; si no, usa los valores por defecto).
+
+Las imágenes salen de `seed/assets/images/` y la lista (clave + texto alternativo) es el
+manifiesto `packages/model/src/images/villa-images.json`. El script solo sube y
+sobrescribe esas claves: **nunca borra** ni toca otros objetos del bucket.
+
+Quien muestre las imágenes monta la URL con `S3_PUBLIC_URL`
+(`http://localhost:9000/images` en `.env.example`) y `buildImageUrl` de `@demo/model`.
+
 ### Aviso: borrar los datos
 
 `docker compose down -v` **borra los volúmenes de MongoDB y de S3 de forma irreversible**

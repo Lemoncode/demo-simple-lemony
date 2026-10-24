@@ -3,12 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "images": "node --env-file-if-exists=../.env src/upload-images.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1156.0",
     "@demo/model": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^24.19.2",
     "typescript": "^6.0.2"
   }
 }

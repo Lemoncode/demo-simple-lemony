@@ -1,0 +1,125 @@
+{
+  "version": 2,
+  "step": "full-pass",
+  "criteria": [
+    { "id": "R1", "evidence": "PR full pass at ed299e2: villa-images.json parsed, 10 entries, every handoff public/images file (excl. CREDITOS.md) has an entry" },
+    { "id": "R2", "evidence": "every entry has exactly keys alt+key, both non-empty strings (node check)" },
+    { "id": "R3", "evidence": "keys are the bare handoff filenames; 10 distinct; no prefix or folder" },
+    { "id": "R4", "evidence": "walked handoff design/data/villa.json src/alt pairs (10): 0 mismatches vs manifest alts" },
+    { "id": "R5", "evidence": "index.ts re-exports type VillaImage and villaImages: readonly VillaImage[] (no cast); seed imports both and tsc passes" },
+    { "id": "R6", "evidence": "grep -rn http packages/model/src -> no matches" },
+    { "id": "R7", "evidence": "buildImageUrl with base /images, /images/, /images/// -> http://localhost:9000/images/salon.jpg (run from seed via @demo/model)" },
+    { "id": "R8", "evidence": "read villa-images.ts: pure string op, no process.env, no I/O" },
+    { "id": "R9", "evidence": ".env.example diff adds S3_PUBLIC_URL=http://localhost:9000/images, six prior vars kept" },
+    { "id": "R10", "evidence": "cmp of all 10 images vs handoff public/images: identical" },
+    { "id": "R11", "evidence": "seed/assets/images/CREDITOS.md cmp-identical to handoff public/images/CREDITOS.md" },
+    { "id": "R12", "evidence": "after pnpm seed:images, HEAD /images/CREDITOS.md -> 404; script iterates villaImages only" },
+    { "id": "R13", "evidence": "pnpm seed:images runs node --env-file-if-exists=../.env src/upload-images.ts directly (type stripping, no build), exit 0" },
+    { "id": "R14", "evidence": "temporary root .env S3_BUCKET=no-existe -> NoSuchBucket failure, proving .env is read; .env removed after" },
+    { "id": "R15", "evidence": "no .env -> defaults work; all five S3_* set to empty -> defaults used, run exit 0 with bucket images @ localhost:9000" },
+    { "id": "R16", "evidence": "forcePathStyle: true in client; mutant forcePathStyle:false killed by the happy-path smoke" },
+    { "id": "R17", "evidence": "run 1 printed 10 subida lines; each key 200 at http://localhost:9000/images/<key>; png and salon.jpg bytes from bucket == local" },
+    { "id": "R18", "evidence": "HEAD: 9 jpg -> image/jpeg, villa-atardecer.png -> image/png; mutant dropping ContentType killed" },
+    { "id": "R19", "evidence": "second run over populated bucket exit 0 (PutObject overwrites); content still byte-equal" },
+    { "id": "R20", "evidence": "only PutObjectCommand used (read whole file); foreign object reviewer-fullpass-probe-task5.txt stayed 200 across 3 runs, then deleted by reviewer" },
+    { "id": "R21", "evidence": "run 1: 10 subida lines + '10 imágenes subidas al bucket images (http://localhost:9000)', exit 0" },
+    { "id": "R22", "evidence": "run 2 exit 0, same summary; objects unchanged" },
+    { "id": "R23", "evidence": "salon.jpg+bano.jpg renamed temporarily -> both named, 'No se ha subido ninguna imagen.', exit 1, no subida lines; restored" },
+    { "id": "R24", "evidence": "temp manifest keys fotos/salon.jpg, .., a\\b.jpg, . -> each named as non-plain, exit 1, nothing uploaded; restored" },
+    { "id": "R25", "evidence": "temp key bano.GIF -> named as bad extension, exit 1 before any upload; restored" },
+    { "id": "R26", "evidence": "S3_ENDPOINT=http://localhost:1 -> 'No se pudo subir terraza-mar.jpg: AggregateError: ECONNREFUSED' exit 1; 127.0.0.1:1 -> 'Error: connect ECONNREFUSED'; bad creds -> InvalidAccessKeyId HTTP 403" },
+    { "id": "R27", "evidence": "no success summary in any failure run (validation, endpoint down, bad creds, bad bucket); mutants removing return false / process.exit(1) killed" },
+    { "id": "R28", "evidence": "outputs of all runs contain no rustfsadmin; injected SEKRET access/secret keys not echoed (grep count 0)" },
+    { "id": "R29", "evidence": "pnpm typecheck --force exit 0 (3/3 tasks, uncached)" },
+    { "id": "R30", "evidence": "pnpm build --force exit 0" }
+  ],
+  "gates": [
+    { "kind": "script", "script": "typecheck", "evidence": "pnpm typecheck --force: 3 successful, 0 cached, exit 0" },
+    { "kind": "script", "script": "build", "evidence": "pnpm build --force: 1 successful, exit 0" },
+    { "kind": "real-run", "evidence": "pnpm seed:images against live RustFS: 2 happy runs exit 0 + HEAD/content-type/bytes checks; error paths (missing files, bad keys, endpoint down, bad creds, .env bad bucket) all exit 1 without summary; reseeded at end" }
+  ],
+  "mutants": {
+    "basis": "declared-risk",
+    "files": [
+      {
+        "file": "seed/src/upload-images.ts",
+        "status": "probed",
+        "probes": [
+          { "mutation": "dropped `return false` in uploadAll catch (l96)", "outcome": "killed", "killedBy": "smoke: S3_ENDPOINT=http://localhost:1 must exit non-zero without summary" },
+          { "mutation": "forcePathStyle true -> false (l64)", "outcome": "killed", "killedBy": "smoke: happy run + HEAD content-type" },
+          { "mutation": "dropped process.exit(1) after validation (l57)", "outcome": "killed", "killedBy": "smoke: missing salon.jpg must print no subida lines" },
+          { "mutation": "dropped ContentType from PutObjectCommand (l92)", "outcome": "killed", "killedBy": "smoke: HEAD content-type image/jpeg / image/png" }
+        ]
+      },
+      {
+        "file": "packages/model/src/images/villa-images.ts",
+        "status": "probed",
+        "probes": [
+          { "mutation": "trailing-slash regex /\\/+$/ -> /\\/$/ (l11)", "outcome": "killed", "killedBy": "smoke: buildImageUrl with '', '/', '///' suffixes" }
+        ]
+      },
+      { "file": ".env.example", "status": "not-applicable", "reason": "no-mutable-logic", "note": "env template line" },
+      { "file": "README.md", "status": "not-applicable", "reason": "no-mutable-logic", "note": "documentation" },
+      { "file": "docs/prds/villa-images-s3-2026-10-24.md", "status": "not-applicable", "reason": "no-mutable-logic", "note": "PRD document" },
+      { "file": "package.json", "status": "not-applicable", "reason": "change-without-logic", "note": "adds seed:images script alias only" },
+      { "file": "packages/model/src/images/villa-images.json", "status": "not-applicable", "reason": "no-mutable-logic", "note": "static data, verified against villa.json instead" },
+      { "file": "packages/model/src/index.ts", "status": "not-applicable", "reason": "change-without-logic", "note": "re-exports only" },
+      { "file": "pnpm-lock.yaml", "status": "not-applicable", "reason": "generated", "note": "written by pnpm install; frozen install succeeded" },
+      { "file": "seed/assets/images/CREDITOS.md", "status": "not-applicable", "reason": "no-mutable-logic", "note": "attribution text, cmp-identical to handoff" },
+      { "file": "seed/assets/images/bano.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/casa-buganvilla.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/dormitorio.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/escalera-mar.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/playa-atardecer.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/salon.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/terraza-mar.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/terraza-pueblo.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/villa-atardecer.png", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/assets/images/villa-piscina.jpg", "status": "not-applicable", "reason": "no-mutable-logic", "note": "binary asset" },
+      { "file": "seed/package.json", "status": "not-applicable", "reason": "change-without-logic", "note": "script and dependency declarations" },
+      { "file": "seed/tsconfig.json", "status": "not-applicable", "reason": "change-without-logic", "note": "types: [node]; exercised by typecheck" },
+      { "file": "tsconfig.base.json", "status": "not-applicable", "reason": "change-without-logic", "note": "compiler flags; exercised by typecheck" }
+    ]
+  },
+  "passes": [
+    {
+      "name": "senior-review",
+      "outcome": "findings",
+      "examined": [".env.example", "README.md", "docs/prds/villa-images-s3-2026-10-24.md", "package.json", "packages/model/src/images/villa-images.json", "packages/model/src/images/villa-images.ts", "packages/model/src/index.ts", "pnpm-lock.yaml", "seed/assets/images/CREDITOS.md", "seed/assets/images/bano.jpg", "seed/assets/images/casa-buganvilla.jpg", "seed/assets/images/dormitorio.jpg", "seed/assets/images/escalera-mar.jpg", "seed/assets/images/playa-atardecer.jpg", "seed/assets/images/salon.jpg", "seed/assets/images/terraza-mar.jpg", "seed/assets/images/terraza-pueblo.jpg", "seed/assets/images/villa-atardecer.png", "seed/assets/images/villa-piscina.jpg", "seed/package.json", "seed/src/upload-images.ts", "seed/tsconfig.json", "tsconfig.base.json"],
+      "findings": [
+        { "file": "README.md", "line": 64, "summary": "advisory: model/seed still described as 'vacío de momento' though both now carry code" },
+        { "file": "README.md", "line": 112, "summary": "advisory: env variable list omits S3_PUBLIC_URL (mentioned only in the new subsection)" }
+      ]
+    },
+    {
+      "name": "spec-compliance-check",
+      "outcome": "none",
+      "examined": [".env.example", "README.md", "docs/prds/villa-images-s3-2026-10-24.md", "package.json", "packages/model/src/images/villa-images.json", "packages/model/src/images/villa-images.ts", "packages/model/src/index.ts", "pnpm-lock.yaml", "seed/assets/images/CREDITOS.md", "seed/assets/images/bano.jpg", "seed/assets/images/casa-buganvilla.jpg", "seed/assets/images/dormitorio.jpg", "seed/assets/images/escalera-mar.jpg", "seed/assets/images/playa-atardecer.jpg", "seed/assets/images/salon.jpg", "seed/assets/images/terraza-mar.jpg", "seed/assets/images/terraza-pueblo.jpg", "seed/assets/images/villa-atardecer.png", "seed/assets/images/villa-piscina.jpg", "seed/package.json", "seed/src/upload-images.ts", "seed/tsconfig.json", "tsconfig.base.json"]
+    },
+    {
+      "name": "security-review",
+      "outcome": "findings",
+      "examined": [".env.example", "README.md", "docs/prds/villa-images-s3-2026-10-24.md", "package.json", "packages/model/src/images/villa-images.json", "packages/model/src/images/villa-images.ts", "packages/model/src/index.ts", "pnpm-lock.yaml", "seed/assets/images/CREDITOS.md", "seed/assets/images/bano.jpg", "seed/assets/images/casa-buganvilla.jpg", "seed/assets/images/dormitorio.jpg", "seed/assets/images/escalera-mar.jpg", "seed/assets/images/playa-atardecer.jpg", "seed/assets/images/salon.jpg", "seed/assets/images/terraza-mar.jpg", "seed/assets/images/terraza-pueblo.jpg", "seed/assets/images/villa-atardecer.png", "seed/assets/images/villa-piscina.jpg", "seed/package.json", "seed/src/upload-images.ts", "seed/tsconfig.json", "tsconfig.base.json"],
+      "findings": [
+        { "file": "seed/src/upload-images.ts", "line": 33, "summary": "low/hardening: new URL(key, assetsDir) decodes %2e%2e as a dot segment and treats #/? as fragment/query; manifest is trusted repo data and fileURLToPath rejects encoded separators, so impact is nil today" }
+      ]
+    },
+    {
+      "name": "silent-failure-hunter",
+      "outcome": "findings",
+      "examined": [".env.example", "README.md", "docs/prds/villa-images-s3-2026-10-24.md", "package.json", "packages/model/src/images/villa-images.json", "packages/model/src/images/villa-images.ts", "packages/model/src/index.ts", "pnpm-lock.yaml", "seed/assets/images/CREDITOS.md", "seed/assets/images/bano.jpg", "seed/assets/images/casa-buganvilla.jpg", "seed/assets/images/dormitorio.jpg", "seed/assets/images/escalera-mar.jpg", "seed/assets/images/playa-atardecer.jpg", "seed/assets/images/salon.jpg", "seed/assets/images/terraza-mar.jpg", "seed/assets/images/terraza-pueblo.jpg", "seed/assets/images/villa-atardecer.png", "seed/assets/images/villa-piscina.jpg", "seed/package.json", "seed/src/upload-images.ts", "seed/tsconfig.json", "tsconfig.base.json"],
+      "findings": [
+        { "file": "seed/src/upload-images.ts", "line": 34, "summary": "low: bare catch reports any access() failure (e.g. EACCES) as 'Falta el fichero', dropping the real cause; still fails loudly with exit 1" }
+      ]
+    },
+    {
+      "name": "test-gap-report",
+      "outcome": "findings",
+      "examined": [".env.example", "README.md", "docs/prds/villa-images-s3-2026-10-24.md", "package.json", "packages/model/src/images/villa-images.json", "packages/model/src/images/villa-images.ts", "packages/model/src/index.ts", "pnpm-lock.yaml", "seed/assets/images/CREDITOS.md", "seed/assets/images/bano.jpg", "seed/assets/images/casa-buganvilla.jpg", "seed/assets/images/dormitorio.jpg", "seed/assets/images/escalera-mar.jpg", "seed/assets/images/playa-atardecer.jpg", "seed/assets/images/salon.jpg", "seed/assets/images/terraza-mar.jpg", "seed/assets/images/terraza-pueblo.jpg", "seed/assets/images/villa-atardecer.png", "seed/assets/images/villa-piscina.jpg", "seed/package.json", "seed/src/upload-images.ts", "seed/tsconfig.json", "tsconfig.base.json"],
+      "findings": [
+        { "file": "seed/src/upload-images.ts", "line": 13, "summary": "no spec for contentTypeFor/isPlainFileName/describeError; accepted by PRD decision (smoke test only, no runner)" },
+        { "file": "packages/model/src/images/villa-images.ts", "line": 10, "summary": "no spec for buildImageUrl; accepted by PRD decision (smoke test only, no runner)" }
+      ]
+    }
+  ]
+}
