@@ -56,6 +56,8 @@ rollback:
 #   # Standing answer for a repo with no CI: `true` lets the executor merge when
 #   # the platform reports no checks at all (otherwise it asks, every time).
 #   allow_no_checks: false
+merge:
+  allow_no_checks: true
 
 # Implementation-phase knobs the Orchestrator reads at the L1 approval gate.
 # auto_commit — does the agent commit automatically as it works? `on`: the
