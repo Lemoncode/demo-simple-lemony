@@ -36,6 +36,8 @@ Sólo el de tanstack Start
 
 Ahora vamos a darle la estructura de mono repo aprovechamos el prompt del otro ejemplo que vamos a encontrarnos aquí... muuuchas más preguntas :)
 
+> IMPORTANTE el `/define` si te fijas estos comandos tienen el emoji del limon para saber que son de lemony
+
 ```bash
 /define Debajo de la carpeta Front tengo un proyecto creado con TanStackstart, ahora me hace falta pasar esto a monorepo ya que quiero crear una carpeta hermana de paquetes y dentro va a tener un modelo común de base de datos (ojo no hay que modelar nada en este fase, sólo crear el proyecto), y después otro hermano que se llamará seed que será el código para generar la semilla de datos para la base de datos en desarrollo (lo mismo no hay que crear nada de semilla hora lo haremos después), y ese proyecto seed tendrá dependencia con el proyecto de modelo.
 
