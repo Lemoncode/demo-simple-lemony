@@ -1,0 +1,69 @@
+services:
+  mongo:
+    image: mongo:8
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  s3:
+    image: rustfs/rustfs:1.0.3
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - s3-data:/data
+    environment:
+      RUSTFS_ACCESS_KEY: ${S3_ACCESS_KEY:-rustfsadmin}
+      RUSTFS_SECRET_KEY: ${S3_SECRET_KEY:-rustfsadmin}
+      RUSTFS_CONSOLE_ENABLE: "true"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9000/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  s3-init:
+    image: amazon/aws-cli:2.31.0
+    depends_on:
+      s3:
+        condition: service_healthy
+    restart: "no"
+    environment:
+      AWS_ACCESS_KEY_ID: ${S3_ACCESS_KEY:-rustfsadmin}
+      AWS_SECRET_ACCESS_KEY: ${S3_SECRET_KEY:-rustfsadmin}
+      AWS_DEFAULT_REGION: ${S3_REGION:-us-east-1}
+      BUCKET: ${S3_BUCKET:-images}
+    entrypoint: ["/bin/sh", "-ec"]
+    command:
+      - |
+        S3="aws --endpoint-url http://s3:9000 s3api"
+        if ! $$S3 head-bucket --bucket "$$BUCKET" >/dev/null 2>&1; then
+          $$S3 create-bucket --bucket "$$BUCKET"
+        fi
+        cat > /tmp/policy.json <<POLICY
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": ["s3:GetObject"],
+              "Resource": ["arn:aws:s3:::$$BUCKET/*"]
+            }
+          ]
+        }
+        POLICY
+        $$S3 put-bucket-policy --bucket "$$BUCKET" --policy file:///tmp/policy.json
+        echo "bucket $$BUCKET ready"
+
+volumes:
+  mongo-data: {}
+  s3-data: {}

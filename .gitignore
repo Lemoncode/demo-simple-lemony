@@ -1,4 +1,6 @@
 node_modules
+.env
+.turbo
 
 # BEGIN lemony
 .claude/state/current-*.md

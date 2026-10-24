@@ -1,5 +1,16 @@
 {
+  "name": "demo-simple-lemony",
+  "private": true,
+  "packageManager": "pnpm@10.19.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "infra:up": "docker compose up -d --wait && docker compose wait s3-init",
+    "infra:down": "docker compose down"
+  },
   "devDependencies": {
-    "@lemoncode/lemony": "^0.11.0"
+    "@lemoncode/lemony": "^0.11.0",
+    "turbo": "^2.11.0"
   }
 }

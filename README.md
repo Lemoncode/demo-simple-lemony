@@ -56,3 +56,64 @@ Además me va hacer falta tirar de docker compose y levantar por un lado una BBD
 
 Una vez resuelto esto genera un plan, y lo publica como issue en github, por ejemplo
 
+## Arranque en local (monorepo + infraestructura)
+
+El repositorio es un monorepo pnpm + Turborepo:
+
+- `front/` — la app TanStack Start.
+- `packages/model/` (`@demo/model`) — modelo común de base de datos (vacío de momento).
+- `seed/` (`@demo/seed`) — semilla de datos para desarrollo (vacía de momento); depende de `@demo/model`.
+
+Necesitas Node, pnpm 10 y Docker con Compose.
+
+### Arranque de cero
+
+```bash
+pnpm i          # instala todo el workspace desde la raíz
+pnpm infra:up   # levanta MongoDB y el S3 local (RustFS) y crea el bucket
+pnpm dev        # arranca front en http://localhost:3000
+```
+
+`pnpm infra:up` solo termina bien cuando Mongo y S3 están sanos y el bucket está creado
+con su política de lectura anónima. Si algo falla, mira `docker compose logs s3-init`.
+
+Otros comandos desde la raíz:
+
+- `pnpm build` — compila front.
+- `pnpm typecheck` — comprueba tipos en los tres paquetes.
+- `pnpm infra:down` — para y elimina los contenedores **conservando los datos** (volúmenes).
+
+### Puertos
+
+| Puerto | Servicio                        |
+| ------ | ------------------------------- |
+| 3000   | front (`pnpm dev`)              |
+| 27017  | MongoDB (sin autenticación)     |
+| 9000   | API S3 de RustFS                |
+| 9001   | Consola web de RustFS           |
+
+### Consola de RustFS
+
+- URL: http://localhost:9001/rustfs/console/
+- Usuario / contraseña por defecto: `rustfsadmin` / `rustfsadmin`
+
+El bucket por defecto es `images`. Los objetos se pueden leer sin credenciales en
+`http://localhost:9000/images/<clave>`; subir, borrar o listar requiere credenciales.
+
+### Configuración (`.env`)
+
+Todo funciona sin `.env`: `docker-compose.yml` trae valores por defecto. Para cambiarlos,
+copia el ejemplo y edítalo (el `.env` está en `.gitignore`):
+
+```bash
+cp .env.example .env
+```
+
+Variables: `MONGODB_URI`, `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET`
+y `S3_REGION`.
+
+### Aviso: borrar los datos
+
+`docker compose down -v` **borra los volúmenes de MongoDB y de S3 de forma irreversible**
+(base de datos, bucket e imágenes). Ningún script del proyecto lo hace; usa
+`pnpm infra:down` para parar sin perder datos.
