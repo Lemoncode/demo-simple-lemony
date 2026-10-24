@@ -7,7 +7,8 @@
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
     "infra:up": "docker compose up -d --wait && docker compose wait s3-init",
-    "infra:down": "docker compose down"
+    "infra:down": "docker compose down",
+    "seed:images": "pnpm --filter @demo/seed images"
   },
   "devDependencies": {
     "@lemoncode/lemony": "^0.11.0",
