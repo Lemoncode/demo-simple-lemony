@@ -1,0 +1,1100 @@
+{
+  "$description": "Villa Azahar — tokens del design system. Convertido a DTCG (3 niveles) desde el handoff de Claude Design (design/tokens.json + design/globals.css), sin inventar valores. Modo base = Día (:root); modo 'dark' = Atardecer (.dark). La app los aplica en front/src/styles.css.",
+  "primitive": {
+    "color": {
+      "day": {
+        "background": {
+          "$type": "color",
+          "$value": "#fbf7ef"
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "#1c2b2a"
+        },
+        "card": {
+          "$type": "color",
+          "$value": "#fffdf9"
+        },
+        "popover": {
+          "$type": "color",
+          "$value": "#fffdf9"
+        },
+        "primary": {
+          "$type": "color",
+          "$value": "#1d6b73"
+        },
+        "primary-foreground": {
+          "$type": "color",
+          "$value": "#fbf7ef"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "#f1e4c8"
+        },
+        "secondary-foreground": {
+          "$type": "color",
+          "$value": "#4a3a22"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "#f3ede1"
+        },
+        "muted-foreground": {
+          "$type": "color",
+          "$value": "#675e50"
+        },
+        "accent": {
+          "$type": "color",
+          "$value": "#e3f0ee"
+        },
+        "accent-foreground": {
+          "$type": "color",
+          "$value": "#17545b"
+        },
+        "destructive": {
+          "$type": "color",
+          "$value": "#b3361f"
+        },
+        "destructive-foreground": {
+          "$type": "color",
+          "$value": "#ffffff"
+        },
+        "destructive-soft": {
+          "$type": "color",
+          "$value": "#fbe9e5"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "#e7dcc9"
+        },
+        "input": {
+          "$type": "color",
+          "$value": "#9a8b6f"
+        },
+        "sea": {
+          "$type": "color",
+          "$value": "#1f8a96"
+        },
+        "sea-soft": {
+          "$type": "color",
+          "$value": "#d5eae7"
+        },
+        "terracotta": {
+          "$type": "color",
+          "$value": "#b5482a"
+        },
+        "terracotta-soft": {
+          "$type": "color",
+          "$value": "#fbebe1"
+        },
+        "on-terracotta": {
+          "$type": "color",
+          "$value": "#ffffff"
+        },
+        "sun": {
+          "$type": "color",
+          "$value": "#f2a93b"
+        },
+        "sand": {
+          "$type": "color",
+          "$value": "#ecd3a3"
+        },
+        "olive": {
+          "$type": "color",
+          "$value": "#5f7a4a"
+        },
+        "pine": {
+          "$type": "color",
+          "$value": "#1f3d2e"
+        },
+        "success": {
+          "$type": "color",
+          "$value": "#3d6b35"
+        },
+        "success-soft": {
+          "$type": "color",
+          "$value": "#e5efdc"
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "#8a5300"
+        },
+        "warning-soft": {
+          "$type": "color",
+          "$value": "#fcefd6"
+        },
+        "calendar-booked": {
+          "$type": "color",
+          "$value": "#efe8db"
+        },
+        "calendar-booked-foreground": {
+          "$type": "color",
+          "$value": "#6f6454"
+        },
+        "calendar-range-foreground": {
+          "$type": "color",
+          "$value": "#154a50"
+        },
+        "primary-hover": {
+          "$type": "color",
+          "$value": "#17545b"
+        },
+        "secondary-hover": {
+          "$type": "color",
+          "$value": "#e9d8b5"
+        },
+        "calendar-past": {
+          "$type": "color",
+          "$value": "#a89e8e"
+        },
+        "pine-foreground": {
+          "$type": "color",
+          "$value": "#fbf7ef"
+        },
+        "pine-muted-foreground": {
+          "$type": "color",
+          "$value": "#cfdccf"
+        },
+        "photo-caption": {
+          "$type": "color",
+          "$value": "#fbf7ef"
+        },
+        "photo-scrim": {
+          "$type": "color",
+          "$value": "#1c2b2a"
+        }
+      },
+      "dusk": {
+        "background": {
+          "$type": "color",
+          "$value": "#0e1919"
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "#f3ebdc"
+        },
+        "card": {
+          "$type": "color",
+          "$value": "#152322"
+        },
+        "popover": {
+          "$type": "color",
+          "$value": "#152322"
+        },
+        "primary": {
+          "$type": "color",
+          "$value": "#5fbcc4"
+        },
+        "primary-foreground": {
+          "$type": "color",
+          "$value": "#0e1919"
+        },
+        "secondary": {
+          "$type": "color",
+          "$value": "#33302a"
+        },
+        "secondary-foreground": {
+          "$type": "color",
+          "$value": "#f0e2c4"
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "#1a2827"
+        },
+        "muted-foreground": {
+          "$type": "color",
+          "$value": "#a99f8d"
+        },
+        "accent": {
+          "$type": "color",
+          "$value": "#1d3533"
+        },
+        "accent-foreground": {
+          "$type": "color",
+          "$value": "#b9e2df"
+        },
+        "destructive": {
+          "$type": "color",
+          "$value": "#f0806a"
+        },
+        "destructive-foreground": {
+          "$type": "color",
+          "$value": "#1a0e0b"
+        },
+        "destructive-soft": {
+          "$type": "color",
+          "$value": "#3a1a14"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "#273836"
+        },
+        "input": {
+          "$type": "color",
+          "$value": "#5c726b"
+        },
+        "sea": {
+          "$type": "color",
+          "$value": "#3fa7b2"
+        },
+        "sea-soft": {
+          "$type": "color",
+          "$value": "#1c4245"
+        },
+        "terracotta": {
+          "$type": "color",
+          "$value": "#e88760"
+        },
+        "terracotta-soft": {
+          "$type": "color",
+          "$value": "#3a2219"
+        },
+        "on-terracotta": {
+          "$type": "color",
+          "$value": "#1a0e0b"
+        },
+        "sun": {
+          "$type": "color",
+          "$value": "#f5b44c"
+        },
+        "sand": {
+          "$type": "color",
+          "$value": "#c9b183"
+        },
+        "olive": {
+          "$type": "color",
+          "$value": "#9fbb84"
+        },
+        "pine": {
+          "$type": "color",
+          "$value": "#2f5a44"
+        },
+        "success": {
+          "$type": "color",
+          "$value": "#8fcf86"
+        },
+        "success-soft": {
+          "$type": "color",
+          "$value": "#1b3020"
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "#f2b65a"
+        },
+        "warning-soft": {
+          "$type": "color",
+          "$value": "#3a2a10"
+        },
+        "calendar-booked": {
+          "$type": "color",
+          "$value": "#1f2b2a"
+        },
+        "calendar-booked-foreground": {
+          "$type": "color",
+          "$value": "#8d9893"
+        },
+        "calendar-range-foreground": {
+          "$type": "color",
+          "$value": "#cdeeea"
+        },
+        "primary-hover": {
+          "$type": "color",
+          "$value": "#7fcdd3"
+        },
+        "secondary-hover": {
+          "$type": "color",
+          "$value": "#3f3b33"
+        },
+        "calendar-past": {
+          "$type": "color",
+          "$value": "#4f5c58"
+        },
+        "pine-foreground": {
+          "$type": "color",
+          "$value": "#fbf7ef"
+        },
+        "pine-muted-foreground": {
+          "$type": "color",
+          "$value": "#cfdccf"
+        },
+        "photo-caption": {
+          "$type": "color",
+          "$value": "#fbf7ef"
+        },
+        "photo-scrim": {
+          "$type": "color",
+          "$value": "#1c2b2a"
+        }
+      }
+    },
+    "space": {
+      "1": {
+        "$type": "dimension",
+        "$value": "4px"
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": "8px"
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": "12px"
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": "16px"
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": "24px"
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": "32px"
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": "48px"
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": "64px"
+      },
+      "24": {
+        "$type": "dimension",
+        "$value": "96px"
+      }
+    },
+    "radius": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "6px"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "10px"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "16px"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "28px"
+      },
+      "full": {
+        "$type": "dimension",
+        "$value": "9999px"
+      },
+      "thumb": {
+        "$type": "dimension",
+        "$value": "12px"
+      },
+      "frame-mobile": {
+        "$type": "dimension",
+        "$value": "24px"
+      }
+    },
+    "shadow": {
+      "day": {
+        "sm": {
+          "$value": "0 1px 2px rgba(60, 44, 20, 0.06)"
+        },
+        "md": {
+          "$value": "0 6px 20px -6px rgba(60, 44, 20, 0.14)"
+        },
+        "lg": {
+          "$value": "0 24px 48px -16px rgba(29, 74, 80, 0.22)"
+        }
+      },
+      "dusk": {
+        "sm": {
+          "$value": "0 1px 2px rgba(0, 0, 0, 0.4)"
+        },
+        "md": {
+          "$value": "0 6px 20px -6px rgba(0, 0, 0, 0.55)"
+        },
+        "lg": {
+          "$value": "0 24px 48px -16px rgba(0, 0, 0, 0.65)"
+        }
+      }
+    },
+    "font": {
+      "serif": {
+        "$type": "fontFamily",
+        "$value": "\"Cormorant Garamond\", \"Cormorant\", Georgia, \"Times New Roman\", serif"
+      },
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "\"Figtree\", ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", sans-serif"
+      }
+    }
+  },
+  "semantic": {
+    "color": {
+      "background": {
+        "$type": "color",
+        "$value": "{primitive.color.day.background}",
+        "$description": "Fondo de página (cal blanca de día / mar de noche). shadcn `--background`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.background}"
+          }
+        }
+      },
+      "foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.foreground}",
+        "$description": "Texto principal sobre `background`, `card`, `popover`, `muted` y `secondary` (≥13:1 en ambos temas).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.background}",
+              "{semantic.color.card}",
+              "{semantic.color.muted}",
+              "{semantic.color.secondary}"
+            ]
+          }
+        }
+      },
+      "card": {
+        "$type": "color",
+        "$value": "{primitive.color.day.card}",
+        "$description": "Tarjetas, panel de reserva, formularios elevados.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.card}"
+          }
+        }
+      },
+      "card-foreground": {
+        "$type": "color",
+        "$value": "{semantic.color.foreground}",
+        "$description": "Texto sobre `card`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{semantic.color.foreground}"
+          }
+        }
+      },
+      "popover": {
+        "$type": "color",
+        "$value": "{primitive.color.day.popover}",
+        "$description": "Popovers, selects, calendario desplegable, menús.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.popover}"
+          }
+        }
+      },
+      "popover-foreground": {
+        "$type": "color",
+        "$value": "{semantic.color.foreground}",
+        "$description": "Texto sobre `popover`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{semantic.color.foreground}"
+          }
+        }
+      },
+      "primary": {
+        "$type": "color",
+        "$value": "{primitive.color.day.primary}",
+        "$description": "Azul mar: acción principal (Reservar, Enviar), día seleccionado del calendario, enlaces. Como texto sobre `background` y `card` (5.8:1 / 8:1).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.primary}"
+          },
+          "com.lemony.contrast": [
+            {
+              "against": [
+                "{semantic.color.background}",
+                "{semantic.color.card}"
+              ]
+            },
+            {
+              "against": "{semantic.color.sea-soft}",
+              "level": "non-text"
+            }
+          ]
+        }
+      },
+      "primary-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.primary-foreground}",
+        "$description": "Texto e iconos sobre un relleno `primary` (5.8:1 claro, 8:1 oscuro).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.primary-foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.primary}",
+              "{semantic.color.primary-hover}"
+            ]
+          }
+        }
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "{primitive.color.day.secondary}",
+        "$description": "Arena: botón secundario, chips de características, franjas de sección.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.secondary}"
+          }
+        }
+      },
+      "secondary-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.secondary-foreground}",
+        "$description": "Texto sobre `secondary`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.secondary-foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.secondary}"
+            ]
+          }
+        }
+      },
+      "muted": {
+        "$type": "color",
+        "$value": "{primitive.color.day.muted}",
+        "$description": "Fondos apagados: secciones alternas, inputs deshabilitados, skeletons.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.muted}"
+          }
+        }
+      },
+      "muted-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.muted-foreground}",
+        "$description": "Texto secundario, metadatos, placeholders; legible sobre `background`, `card` y `muted` (≥5.4:1).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.muted-foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.background}",
+              "{semantic.color.card}",
+              "{semantic.color.muted}"
+            ]
+          }
+        }
+      },
+      "accent": {
+        "$type": "color",
+        "$value": "{primitive.color.day.accent}",
+        "$description": "Bruma marina: hover de items de menú, opciones de select, ghost buttons.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.accent}"
+          }
+        }
+      },
+      "accent-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.accent-foreground}",
+        "$description": "Texto sobre `accent`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.accent-foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.accent}"
+            ]
+          }
+        }
+      },
+      "destructive": {
+        "$type": "color",
+        "$value": "{primitive.color.day.destructive}",
+        "$description": "Errores de formulario: borde de 2px del campo inválido, mensaje bajo el campo y resumen; como texto sobre `background`, `card` y `destructive-soft` (≥5.2:1 en ambos temas).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.destructive}"
+          }
+        }
+      },
+      "destructive-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.destructive-foreground}",
+        "$description": "Texto sobre relleno `destructive`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.destructive-foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.destructive}"
+            ]
+          }
+        }
+      },
+      "destructive-soft": {
+        "$type": "color",
+        "$value": "{primitive.color.day.destructive-soft}",
+        "$description": "Fondo del resumen de errores de un formulario, tras texto `destructive` (5.2:1 claro / 6:1 oscuro).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.destructive-soft}"
+          }
+        }
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{primitive.color.day.border}",
+        "$description": "Líneas divisorias y bordes de tarjeta (decorativo, no informativo).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.border}"
+          }
+        }
+      },
+      "input": {
+        "$type": "color",
+        "$value": "{primitive.color.day.input}",
+        "$description": "Borde de inputs, checkboxes y selects (≥3:1 sobre `background` y `card`).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.input}"
+          },
+          "com.lemony.contrast": {
+            "against": "{semantic.color.background}",
+            "level": "non-text"
+          }
+        }
+      },
+      "ring": {
+        "$type": "color",
+        "$value": "{semantic.color.primary}",
+        "$description": "Anillo de foco: 2px sólido + 2px de offset `background` (≥5.7:1).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{semantic.color.primary}"
+          },
+          "com.lemony.contrast": {
+            "against": "{semantic.color.background}",
+            "level": "non-text"
+          }
+        }
+      },
+      "sea": {
+        "$type": "color",
+        "$value": "{primitive.color.day.sea}",
+        "$description": "Turquesa de la ilustración. Solo rellenos decorativos, iconos grandes y fondos de hero; NO para texto pequeño (3.8:1 en claro).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.sea}"
+          }
+        }
+      },
+      "sea-soft": {
+        "$type": "color",
+        "$value": "{primitive.color.day.sea-soft}",
+        "$description": "Tinte marino: rango intermedio del calendario, banners informativos.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.sea-soft}"
+          }
+        }
+      },
+      "terracotta": {
+        "$type": "color",
+        "$value": "{primitive.color.day.terracotta}",
+        "$description": "Teja: acentos cálidos, etiqueta de precio/oferta, día de hoy en el calendario, iconos de características. Como texto sobre `background` y `terracotta-soft`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.terracotta}"
+          },
+          "com.lemony.contrast": [
+            {
+              "against": [
+                "{semantic.color.background}",
+                "{semantic.color.card}"
+              ]
+            },
+            {
+              "against": "{semantic.color.terracotta-soft}",
+              "level": "non-text"
+            }
+          ]
+        }
+      },
+      "terracotta-soft": {
+        "$type": "color",
+        "$value": "{primitive.color.day.terracotta-soft}",
+        "$description": "Fondo de badges y avisos cálidos tras texto `terracotta`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.terracotta-soft}"
+          }
+        }
+      },
+      "on-terracotta": {
+        "$type": "color",
+        "$value": "{primitive.color.day.on-terracotta}",
+        "$description": "Texto sobre relleno `terracotta` (5.3:1 / 7.3:1).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.on-terracotta}"
+          }
+        }
+      },
+      "sun": {
+        "$type": "color",
+        "$value": "{primitive.color.day.sun}",
+        "$description": "Sol del atardecer: estrellas de valoración, puntos de luz, ilustración. Nunca como fondo de texto blanco.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.sun}"
+          }
+        }
+      },
+      "sand": {
+        "$type": "color",
+        "$value": "{primitive.color.day.sand}",
+        "$description": "Arena de la playa: bloques decorativos, separadores ilustrados.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.sand}"
+          }
+        }
+      },
+      "olive": {
+        "$type": "color",
+        "$value": "{primitive.color.day.olive}",
+        "$description": "Olivo: iconografía de naturaleza/jardín, detalles botánicos.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.olive}"
+          }
+        }
+      },
+      "pine": {
+        "$type": "color",
+        "$value": "{primitive.color.day.pine}",
+        "$description": "Pino oscuro: footer en claro, bloques profundos de ilustración.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.pine}"
+          }
+        }
+      },
+      "success": {
+        "$type": "color",
+        "$value": "{primitive.color.day.success}",
+        "$description": "Disponible / reserva enviada; texto sobre `success-soft`, `background` y `card`. Va siempre con icono o palabra.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.success}"
+          }
+        }
+      },
+      "success-soft": {
+        "$type": "color",
+        "$value": "{primitive.color.day.success-soft}",
+        "$description": "Fondo de alerta de éxito.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.success-soft}"
+          }
+        }
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{primitive.color.day.warning}",
+        "$description": "Avisos (estancia mínima, fechas parcialmente ocupadas); texto sobre `warning-soft`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.warning}"
+          }
+        }
+      },
+      "warning-soft": {
+        "$type": "color",
+        "$value": "{primitive.color.day.warning-soft}",
+        "$description": "Fondo de alerta de aviso.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.warning-soft}"
+          }
+        }
+      },
+      "calendar-booked": {
+        "$type": "color",
+        "$value": "{primitive.color.day.calendar-booked}",
+        "$description": "Fondo de un día ocupado (no seleccionable).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.calendar-booked}"
+          }
+        }
+      },
+      "calendar-booked-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.calendar-booked-foreground}",
+        "$description": "Número de un día ocupado; además tachado, el estado no depende solo del color.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.calendar-booked-foreground}"
+          }
+        }
+      },
+      "calendar-range": {
+        "$type": "color",
+        "$value": "{semantic.color.sea-soft}",
+        "$description": "Días intermedios del rango elegido.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{semantic.color.sea-soft}"
+          }
+        }
+      },
+      "calendar-range-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.calendar-range-foreground}",
+        "$description": "Número de día sobre `calendar-range` (7.9:1 / 8.9:1).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.calendar-range-foreground}"
+          }
+        }
+      },
+      "calendar-selected": {
+        "$type": "color",
+        "$value": "{semantic.color.primary}",
+        "$description": "Día de llegada y de salida.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{semantic.color.primary}"
+          }
+        }
+      },
+      "calendar-selected-foreground": {
+        "$type": "color",
+        "$value": "{semantic.color.primary-foreground}",
+        "$description": "Número sobre `calendar-selected`.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{semantic.color.primary-foreground}"
+          }
+        }
+      },
+      "calendar-today": {
+        "$type": "color",
+        "$value": "{semantic.color.terracotta}",
+        "$description": "Punto o subrayado bajo el día de hoy.",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{semantic.color.terracotta}"
+          }
+        }
+      },
+      "primary-hover": {
+        "$type": "color",
+        "$value": "{primitive.color.day.primary-hover}",
+        "$description": "Hover de primary (globals.css).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.primary-hover}"
+          }
+        }
+      },
+      "secondary-hover": {
+        "$type": "color",
+        "$value": "{primitive.color.day.secondary-hover}",
+        "$description": "Hover de secondary (globals.css).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.secondary-hover}"
+          }
+        }
+      },
+      "calendar-past": {
+        "$type": "color",
+        "$value": "{primitive.color.day.calendar-past}",
+        "$description": "Días pasados del calendario (globals.css).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.calendar-past}"
+          }
+        }
+      },
+      "pine-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.pine-foreground}",
+        "$description": "Texto del pie sobre pine (03-paginas.md › Footer).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.pine-foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.pine}"
+            ]
+          }
+        }
+      },
+      "pine-muted-foreground": {
+        "$type": "color",
+        "$value": "{primitive.color.day.pine-muted-foreground}",
+        "$description": "Texto secundario del pie sobre pine (03-paginas.md › Footer).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.pine-muted-foreground}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.pine}"
+            ]
+          }
+        }
+      },
+      "photo-caption": {
+        "$type": "color",
+        "$value": "{primitive.color.day.photo-caption}",
+        "$description": "Pie de foto crema sobre el degradado del carrusel (03-paginas.md › Carrusel).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.photo-caption}"
+          },
+          "com.lemony.contrast": {
+            "against": [
+              "{semantic.color.photo-scrim}"
+            ]
+          }
+        }
+      },
+      "photo-scrim": {
+        "$type": "color",
+        "$value": "{primitive.color.day.photo-scrim}",
+        "$description": "Base oscura fija del degradado y la píldora del contador sobre fotos (= foreground Día en ambos temas, para que no se aclare en Atardecer).",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.color.dusk.photo-scrim}"
+          }
+        }
+      }
+    },
+    "space": {
+      "1": {
+        "$type": "dimension",
+        "$value": "{primitive.space.1}"
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": "{primitive.space.2}"
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": "{primitive.space.3}"
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": "{primitive.space.4}"
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": "{primitive.space.6}"
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": "{primitive.space.8}"
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": "{primitive.space.12}"
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": "{primitive.space.16}"
+      },
+      "24": {
+        "$type": "dimension",
+        "$value": "{primitive.space.24}"
+      }
+    },
+    "radius": {
+      "sm": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.sm}"
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.md}"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.lg}"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.xl}"
+      },
+      "full": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.full}"
+      }
+    },
+    "shadow": {
+      "sm": {
+        "$value": "{primitive.shadow.day.sm}",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.shadow.dusk.sm}"
+          }
+        }
+      },
+      "md": {
+        "$value": "{primitive.shadow.day.md}",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.shadow.dusk.md}"
+          }
+        }
+      },
+      "lg": {
+        "$value": "{primitive.shadow.day.lg}",
+        "$extensions": {
+          "com.lemony.modes": {
+            "dark": "{primitive.shadow.dusk.lg}"
+          }
+        }
+      }
+    },
+    "font": {
+      "serif": {
+        "$type": "fontFamily",
+        "$value": "{primitive.font.serif}"
+      },
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "{primitive.font.sans}"
+      }
+    }
+  },
+  "component": {
+    "carousel": {
+      "thumb-radius": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.thumb}",
+        "$description": "Radio de las miniaturas del carrusel (03-paginas.md: radius 12)."
+      },
+      "frame-radius-mobile": {
+        "$type": "dimension",
+        "$value": "{primitive.radius.frame-mobile}",
+        "$description": "Radio del marco del carrusel en móvil (03-paginas.md: radius 24)."
+      }
+    }
+  }
+}
