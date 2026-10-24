@@ -34,5 +34,11 @@ Sólo el de tanstack Start
 
 ## Paso 1 - Crear mono repo
 
-Ahora vamos a darle el 
+Ahora vamos a darle la estructura de mono repo aprovechamos el prompt del otro ejemplo que vamos a encontrarnos aquí... muuuchas más preguntas :)
+
+```bash
+/define Debajo de la carpeta Front tengo un proyecto creado con TanStackstart, ahora me hace falta pasar esto a monorepo ya que quiero crear una carpeta hermana de paquetes y dentro va a tener un modelo común de base de datos (ojo no hay que modelar nada en este fase, sólo crear el proyecto), y después otro hermano que se llamará seed que será el código para generar la semilla de datos para la base de datos en desarrollo (lo mismo no hay que crear nada de semilla hora lo haremos después), y ese proyecto seed tendrá dependencia con el proyecto de modelo.
+
+Además me va hacer falta tirar de docker compose y levantar por un lado una BBDD mongoDB y por otro lado un emular de S3 en local para poder subir imagenes
+```
 
