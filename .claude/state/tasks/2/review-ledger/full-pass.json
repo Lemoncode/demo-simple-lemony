@@ -2,106 +2,111 @@
   "version": 2,
   "step": "full-pass",
   "criteria": [
-    { "id": "R1", "evidence": "read pnpm-workspace.yaml: packages exactly front, seed, packages/*; `pnpm install` reports 4 workspace projects" },
-    { "id": "R2", "evidence": "find shows only ./pnpm-lock.yaml; package-lock.json and front/pnpm-workspace.yaml absent (ls fails)" },
-    { "id": "R3", "evidence": "pnpm-workspace.yaml has allowBuilds + onlyBuiltDependencies for esbuild/lightningcss; front/package.json has no pnpm field; `pnpm ignored-builds` -> None" },
-    { "id": "R4", "evidence": "root package.json private, packageManager pnpm@10.19.0, @lemoncode/lemony ^0.11.0 kept" },
-    { "id": "R5", "evidence": "CI=true pnpm install --frozen-lockfile rc 0, all 4 projects, lockfile up to date" },
-    { "id": "R6", "evidence": "node_modules/.bin/lemony --version -> 0.11.0, rc 0" },
-    { "id": "R7", "evidence": "git diff main -- front/tsconfig.json and vs anchor: empty" },
-    { "id": "R8", "evidence": "front/package.json diff: only typecheck script added and pnpm field removed; name and deps/scripts unchanged" },
-    { "id": "R9", "evidence": "front/package.json declares no @demo/model dependency" },
-    { "id": "R10", "evidence": "turbo build of front (pnpm build --force) rc 0, .output produced" },
-    { "id": "R11", "evidence": "front dev answered 200 on fallback port 3002 (3000/3001 held by other local projects); script still `vite dev --port 3000`" },
-    { "id": "R12", "evidence": "front `pnpm preview` after build answered 200, no errors in log" },
+    { "id": "R1", "evidence": "PR full pass (fresh): read pnpm-workspace.yaml, packages exactly front, seed, packages/*; pnpm install reports 4 workspace projects" },
+    { "id": "R2", "evidence": "find shows only ./pnpm-lock.yaml; package-lock.json and front/pnpm-workspace.yaml absent" },
+    { "id": "R3", "evidence": "root pnpm-workspace.yaml has allowBuilds + onlyBuiltDependencies (esbuild, lightningcss); front/package.json has no pnpm field; pnpm ignored-builds -> None" },
+    { "id": "R4", "evidence": "root package.json private, packageManager pnpm@10.19.0, @lemoncode/lemony ^0.11.0 devDependency" },
+    { "id": "R5", "evidence": "CI=true pnpm install --frozen-lockfile rc 0, scope all 4 workspace projects" },
+    { "id": "R6", "evidence": "node_modules/.bin/lemony --version -> 0.11.0" },
+    { "id": "R7", "evidence": "git diff main -- front/tsconfig.json: empty" },
+    { "id": "R8", "evidence": "git diff f7f7b7d HEAD -- front/package.json: only typecheck script added and pnpm field removed" },
+    { "id": "R9", "evidence": "front/package.json has no @demo/model dependency" },
+    { "id": "R10", "evidence": "pnpm build --force (turbo, front) rc 0, front/.output produced" },
+    { "id": "R11", "evidence": "front dev (via root turbo) bound literal :3000 this run and answered HTTP 200 on http://localhost:3000/" },
+    { "id": "R12", "evidence": "front pnpm preview after build answered HTTP 200 (port 3002, since 3000/3001 were in use at that moment)" },
     { "id": "R13", "evidence": "packages/model/package.json: @demo/model, private, type module, exports . -> ./src/index.ts, no build script" },
-    { "id": "R14", "evidence": "git ls-files packages: only package.json, tsconfig.json (extends ../../tsconfig.base.json), src/index.ts = export {}; no mongodb/mongoose" },
+    { "id": "R14", "evidence": "packages/model holds package.json, tsconfig.json (extends ../../tsconfig.base.json), src/index.ts = export {} (+ install node_modules); no mongodb/mongoose" },
     { "id": "R15", "evidence": "seed/package.json: @demo/seed, private, type module, @demo/model workspace:*" },
-    { "id": "R16", "evidence": "seed/node_modules/@demo/model is a symlink to ../../../packages/model" },
-    { "id": "R17", "evidence": "git ls-files seed: package.json, tsconfig.json (extends ../tsconfig.base.json), src/index.ts = export {} with no imports" },
-    { "id": "R18", "evidence": "tsconfig.base.json exists; model and seed extend it; front/tsconfig.json unchanged and does not extend it" },
+    { "id": "R16", "evidence": "seed/node_modules/@demo/model -> ../../../packages/model symlink" },
+    { "id": "R17", "evidence": "seed holds package.json, tsconfig.json (extends ../tsconfig.base.json), src/index.ts = export {} with no imports" },
+    { "id": "R18", "evidence": "tsconfig.base.json present; model and seed extend it; front/tsconfig.json untouched and does not extend it" },
     { "id": "R19", "evidence": "turbo.json declares exactly dev, build, typecheck" },
     { "id": "R20", "evidence": "root scripts dev/build/typecheck = turbo run <task>" },
-    { "id": "R21", "evidence": "pnpm typecheck --force: tsc --noEmit ran in front, @demo/model, @demo/seed; 3/3 successful" },
-    { "id": "R22", "evidence": "pnpm build --force rc 0, front built" },
-    { "id": "R23", "evidence": "root `pnpm dev` (turbo) served front with 200 on fallback port 3002 (literal 3000 held by another project)" },
-    { "id": "R24", "evidence": "injected type error into seed/src/index.ts -> TS2322, `Failed: @demo/seed#typecheck`, run failed; reverted by trap" },
-    { "id": "R25", "evidence": "docker-compose.yml has services mongo, s3, s3-init" },
-    { "id": "R26", "evidence": "mongo:8, 27017 published, no auth env, named volume mongo-data, mongosh ping healthcheck with finite retries; reached healthy" },
-    { "id": "R27", "evidence": "rustfs/rustfs:1.0.3 pinned, 9000+9001, volume s3-data, curl /health healthcheck; healthy; console /rustfs/console/ 200 via remap" },
-    { "id": "R28", "evidence": "RUSTFS_ACCESS_KEY/SECRET_KEY from ${S3_ACCESS_KEY}/${S3_SECRET_KEY} with rustfsadmin defaults; authed aws-cli calls succeeded" },
-    { "id": "R29", "evidence": "get-bucket-policy on images: Principal *, Action [s3:GetObject], Resource arn:aws:s3:::images/*; s3-init exited 0 after s3 healthy" },
-    { "id": "R30", "evidence": "pnpm infra:up rc 0 with mongo healthy, s3 healthy, s3-init exited 0 (via ports override)" },
-    { "id": "R31", "evidence": "mongosh mongodb://localhost:27017/demo ping -> 1 (run inside mongo container; host port remapped to 37017)" },
-    { "id": "R32", "evidence": "authed upload of review-probe.txt, anonymous curl GET -> 200 with content (port 19000 remap)" },
-    { "id": "R33", "evidence": "anonymous PUT 403, LIST 403 (both list forms), DELETE 403" },
-    { "id": "R34", "evidence": "second infra:up rc 0, object still readable anonymously" },
-    { "id": "R35", "evidence": "S3_BUCKET=Nombre_Invalido pnpm infra:up -> rc 254, InvalidBucketName in s3-init log" },
-    { "id": "R36", "evidence": "extra override forcing s3 healthcheck false -> infra:up rc 1, container is unhealthy" },
-    { "id": "R37", "evidence": "infra:down rc 0, 0 containers, both named volumes remain; next infra:up finds object readable" },
-    { "id": "R38", "evidence": "grep of all package.json scripts: no `down -v`, volume rm or prune" },
-    { "id": "R39", "evidence": ".env.example has the six variables with compose defaults (mongodb://localhost:27017/demo, bucket images)" },
-    { "id": "R40", "evidence": ".gitignore root has `.env` line" },
-    { "id": "R41", "evidence": "no .env present; all infra runs used ${VAR:-default} values and succeeded" },
-    { "id": "R42", "evidence": "S3_BUCKET=revotro pnpm infra:up rc 0, head-bucket revotro ok (env var path; .env file read by compose by default); bucket deleted after" },
-    { "id": "R43", "evidence": "README new section: from-zero flow, infra:down, ports table, console URL + rustfsadmin creds, .env.example, down -v warning" },
-    { "id": "R44", "evidence": "git diff anchor -- README.md: 0 removed lines; new content appended as a new section" }
+    { "id": "R21", "evidence": "pnpm typecheck --force: tsc --noEmit in front, @demo/model, @demo/seed, 3/3 successful" },
+    { "id": "R22", "evidence": "pnpm build --force rc 0, 1/1 front built" },
+    { "id": "R23", "evidence": "root pnpm dev -> turbo front:dev, VITE Local http://localhost:3000/, curl 200" },
+    { "id": "R24", "evidence": "appended type error to seed/src/index.ts -> TS2322, Failed: @demo/seed#typecheck, non-zero exit; restored by EXIT trap" },
+    { "id": "R25", "evidence": "docker-compose.yml services mongo, s3, s3-init" },
+    { "id": "R26", "evidence": "mongo:8, 27017:27017, no auth env, volume mongo-data, mongosh ping healthcheck (finite retries); healthy on real port" },
+    { "id": "R27", "evidence": "rustfs/rustfs:1.0.3, 9000+9001, volume s3-data, curl /health healthcheck; healthy; console http://localhost:9001/rustfs/console/ 200" },
+    { "id": "R28", "evidence": "RUSTFS_ACCESS_KEY/SECRET_KEY from S3_ACCESS_KEY/S3_SECRET_KEY (default rustfsadmin); authed aws-cli calls succeeded" },
+    { "id": "R29", "evidence": "s3-init exited 0 after s3 healthy; get-bucket-policy images: Principal *, Action [s3:GetObject], Resource arn:aws:s3:::images/*" },
+    { "id": "R30", "evidence": "pnpm infra:up rc 0 on real ports; ps -a: mongo healthy, s3 healthy, s3-init Exited (0)" },
+    { "id": "R31", "evidence": "mongosh mongodb://localhost:27017/demo ping -> 1; host port 27017 open" },
+    { "id": "R32", "evidence": "authed upload reviewer-probe.txt; anonymous curl http://localhost:9000/images/reviewer-probe.txt -> 200" },
+    { "id": "R33", "evidence": "anonymous PUT 403, DELETE 403, LIST 403 (both list forms); missing key 404" },
+    { "id": "R34", "evidence": "second infra:up rc 0, object still readable anonymously, policy re-applied (head-bucket skips create)" },
+    { "id": "R35", "evidence": "S3_BUCKET=Nombre_Invalido pnpm infra:up rc 254, InvalidBucketName in s3-init log" },
+    { "id": "R36", "evidence": "override forcing s3 healthcheck false -> 'container demo-simple-lemony-s3-1 is unhealthy', exit 1" },
+    { "id": "R37", "evidence": "infra:down rc 0, 0 containers, both named volumes kept; infra:up again -> object still readable" },
+    { "id": "R38", "evidence": "grep of all package.json scripts: no down -v / volume removal" },
+    { "id": "R39", "evidence": ".env.example has the six variables with the compose defaults" },
+    { "id": "R40", "evidence": "root .gitignore has .env" },
+    { "id": "R41", "evidence": "no .env present during all infra runs; defaults applied and up succeeded" },
+    { "id": "R42", "evidence": "wrote a real root .env with S3_BUCKET=reviewenv -> infra:up rc 0, head-bucket reviewenv ok; .env and bucket removed after" },
+    { "id": "R43", "evidence": "README new section: pnpm i -> infra:up -> dev, infra:down, ports 3000/27017/9000/9001, console URL + rustfsadmin creds, .env.example, down -v warning" },
+    { "id": "R44", "evidence": "git diff f7f7b7d HEAD -- README.md: zero removed lines; new section appended" }
   ],
   "gates": [
-    { "kind": "script", "script": "typecheck", "evidence": "pnpm typecheck --force: 3/3 successful (front, @demo/model, @demo/seed)" },
-    { "kind": "script", "script": "build", "evidence": "pnpm build --force: rc 0, 1/1 successful, front/.output produced" },
-    { "kind": "real-run", "evidence": "frozen pnpm install + lemony --version; root pnpm dev 200 and front preview 200 (fallback port 3002); full infra lifecycle via ports override: up/healthy/ping/policy/anon 200+403s/repeat/down keeps volumes/invalid bucket 254/unhealthy 1/other bucket; cleaned up" },
-    { "kind": "script", "script": "audit", "evidence": "pnpm audit --audit-level=moderate: 1 moderate (postcss-selector-parser 6.0.10 via @tailwindcss/typography), same version in anchor lockfile: pre-existing" }
+    { "kind": "script", "script": "typecheck", "evidence": "pnpm typecheck --force: 3/3 successful, 0 cached" },
+    { "kind": "script", "script": "build", "evidence": "pnpm build --force: 1/1 successful, front/.output produced" },
+    { "kind": "script", "script": "audit", "evidence": "pnpm audit --audit-level=moderate: 1 moderate GHSA-rj75-hqrm-r3gf (postcss-selector-parser 6.0.10 via front @tailwindcss/typography), present in anchor front/pnpm-lock.yaml: pre-existing" },
+    { "kind": "real-run", "evidence": "frozen install + lemony --version; root pnpm dev 200 on literal :3000, preview 200; full infra lifecycle on real ports 27017/9000/9001 (up, health, ping, policy, anon 200/403s, repeat, down keeps volumes, .env bucket, invalid bucket 254, unhealthy 1); test objects/bucket deleted, compose down without -v" }
   ],
   "mutants": {
     "basis": "declared-risk",
     "files": [
-      { "file": "docker-compose.yml", "status": "probed", "probes": [ { "mutation": "line 44 entrypoint `/bin/sh -ec` -> `-c` (drop errexit in s3-init script)", "outcome": "killed", "killedBy": "R35 smoke check: S3_BUCKET=Nombre_Invalido pnpm infra:up returned 0 under the mutant" } ] },
       { "file": "package.json", "status": "probed", "probes": [ { "mutation": "line 9 dropped `&& docker compose wait s3-init` from infra:up", "outcome": "killed", "killedBy": "R35 smoke check: S3_BUCKET=Nombre_Invalido pnpm infra:up returned 0 under the mutant" } ] },
-      { "file": "seed/src/index.ts", "status": "probed", "probes": [ { "mutation": "appended `export const broken: number = \"x\"`", "outcome": "killed", "killedBy": "typecheck gate (pnpm typecheck failed on @demo/seed#typecheck)" } ] },
-      { "file": ".env.example", "status": "not-applicable", "reason": "no-mutable-logic", "note": "six key=value defaults, no logic" },
+      { "file": "docker-compose.yml", "status": "probed", "probes": [
+        { "mutation": "line 44 entrypoint /bin/sh -ec -> -c (drop errexit)", "outcome": "killed", "killedBy": "R35 smoke check: invalid-bucket infra:up returned 0 under the mutant" },
+        { "mutation": "line 58 policy Action s3:GetObject -> s3:*", "outcome": "killed", "killedBy": "R33 smoke check: anonymous PUT returned 200 under the mutant (policy restored by re-up, object deleted)" }
+      ] },
+      { "file": "seed/src/index.ts", "status": "probed", "probes": [ { "mutation": "appended `export const broken: number = \"x\"`", "outcome": "killed", "killedBy": "typecheck gate (Failed: @demo/seed#typecheck)" } ] },
+      { "file": ".env.example", "status": "not-applicable", "reason": "no-mutable-logic", "note": "six key=value defaults" },
       { "file": ".gitignore", "status": "not-applicable", "reason": "no-mutable-logic", "note": "two ignore patterns added" },
       { "file": "README.md", "status": "not-applicable", "reason": "no-mutable-logic", "note": "documentation only" },
-      { "file": "front/package.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 1/Group 3 (workspace migration, turbo), which declare no risk; adds typecheck script, removes pnpm field" },
-      { "file": "packages/model/package.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 2 (package skeletons), which declares no risk; manifest only" },
-      { "file": "packages/model/src/index.ts", "status": "not-applicable", "reason": "no-mutable-logic", "note": "`export {}` only" },
+      { "file": "docs/prds/monorepo-infra-local-2026-10-24.md", "status": "not-applicable", "reason": "no-mutable-logic", "note": "PRD document from the spec commit" },
+      { "file": "harness.config.yml", "status": "not-applicable", "reason": "change-without-logic", "note": "chore commit declaring gates typecheck + build; config list, no group" },
+      { "file": "front/package.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 1/Group 3, which declare no risk; adds typecheck script, removes pnpm field" },
+      { "file": "packages/model/package.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 2, which declares no risk; manifest only" },
+      { "file": "packages/model/src/index.ts", "status": "not-applicable", "reason": "no-mutable-logic", "note": "export {} only" },
       { "file": "packages/model/tsconfig.json", "status": "not-applicable", "reason": "no-mutable-logic", "note": "extends base + include src" },
       { "file": "pnpm-lock.yaml", "status": "not-applicable", "reason": "generated", "note": "regenerated by pnpm i (D10)" },
-      { "file": "pnpm-workspace.yaml", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 1 (workspace migration), which declares no risk; config verified by install + ignored-builds" },
-      { "file": "seed/package.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 2 (package skeletons), which declares no risk; manifest only" },
+      { "file": "pnpm-workspace.yaml", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 1, which declares no risk; verified by install + ignored-builds" },
+      { "file": "seed/package.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 2, which declares no risk; manifest only" },
       { "file": "seed/tsconfig.json", "status": "not-applicable", "reason": "no-mutable-logic", "note": "extends base + include src" },
       { "file": "tsconfig.base.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 2, which declares no risk; compiler options only" },
-      { "file": "turbo.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 3 (turbo orchestration), which declares no risk; task config verified by typecheck/build/dev runs" }
+      { "file": "turbo.json", "status": "not-applicable", "reason": "outside-declared-risk", "note": "changed by Group 3, which declares no risk; verified by typecheck/build/dev runs" }
     ]
   },
   "passes": [
     {
       "name": "senior-review",
       "outcome": "none",
-      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "front/package.json", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
+      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "docs/prds/monorepo-infra-local-2026-10-24.md", "front/package.json", "harness.config.yml", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
     },
     {
       "name": "spec-compliance-check",
       "outcome": "none",
-      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "front/package.json", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
+      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "docs/prds/monorepo-infra-local-2026-10-24.md", "front/package.json", "harness.config.yml", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
     },
     {
       "name": "security-review",
       "outcome": "findings",
-      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "front/package.json", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"],
+      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "docs/prds/monorepo-infra-local-2026-10-24.md", "front/package.json", "harness.config.yml", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"],
       "findings": [
-        { "file": "docker-compose.yml", "line": 5, "summary": "Low/hardening: ports published on all interfaces; unauthenticated Mongo (and RustFS with default rustfsadmin creds, lines 18-19) reachable from the LAN; a 127.0.0.1: prefix would scope them to localhost" }
+        { "file": "docker-compose.yml", "line": 5, "summary": "Low/hardening: ports published on all interfaces; unauthenticated Mongo and RustFS with default rustfsadmin creds (lines 18-19) reachable from the LAN; a 127.0.0.1: prefix would scope them to localhost" }
       ]
     },
     {
       "name": "silent-failure-hunter",
       "outcome": "none",
-      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "front/package.json", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
+      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "docs/prds/monorepo-infra-local-2026-10-24.md", "front/package.json", "harness.config.yml", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
     },
     {
       "name": "test-gap-report",
       "outcome": "none",
-      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "front/package.json", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
+      "examined": [".env.example", ".gitignore", "README.md", "docker-compose.yml", "docs/prds/monorepo-infra-local-2026-10-24.md", "front/package.json", "harness.config.yml", "package.json", "packages/model/package.json", "packages/model/src/index.ts", "packages/model/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "seed/package.json", "seed/src/index.ts", "seed/tsconfig.json", "tsconfig.base.json", "turbo.json"]
     }
   ]
 }
