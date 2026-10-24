@@ -1,0 +1,12 @@
+packages:
+  - front
+  - seed
+  - "packages/*"
+
+allowBuilds:
+  esbuild: true
+  lightningcss: true
+
+onlyBuiltDependencies:
+  - esbuild
+  - lightningcss
