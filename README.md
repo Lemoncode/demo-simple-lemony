@@ -2,6 +2,8 @@
 
 ## Crear proyecto
 
+Importante haber creado el proyecto en Github !!
+
 Para este proyecto vamos arrancar primero por crear el proyecto de Front (podríamos haberlo hecho tirando de lemony pero no merece la pena gastar tokens).
 
 ```bash
@@ -51,3 +53,6 @@ Ahora vamos a darle la estructura de mono repo aprovechamos el prompt del otro e
 
 Además me va hacer falta tirar de docker compose y levantar por un lado una BBDD mongoDB y por otro lado un emular de S3 en local para poder subir imagenes
 ```
+
+Una vez resuelto esto genera un plan, y lo publica como issue en github, por ejemplo
+
