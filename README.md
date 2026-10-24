@@ -18,8 +18,16 @@ https://www.npmjs.com/package/@lemoncode/lemony
 
 Y para instalarlo
 
+--> add the harness to the project
+
 ```bash
-npm i -D @lemoncode/lemony 
+npm i -D @lemoncode/lemony
+```
+
+--> scaffold the harness into this repo
+
+```bash
+npx lemony install
 ```
 
 ## Setup skills TanStack Start
@@ -43,4 +51,3 @@ Ahora vamos a darle la estructura de mono repo aprovechamos el prompt del otro e
 
 Además me va hacer falta tirar de docker compose y levantar por un lado una BBDD mongoDB y por otro lado un emular de S3 en local para poder subir imagenes
 ```
-
